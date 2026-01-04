@@ -7,6 +7,9 @@ import bridge.view.InputView;
 import bridge.view.OutputView;
 
 public class BridgeGameController {
+    private static final String RETRY = "R";
+    private static final String END = "Q";
+
     private final InputView inputView;
     private final OutputView outputView;
     private final BridgeGameService bridgeGameService;
@@ -43,11 +46,37 @@ public class BridgeGameController {
                     InputValidator.validateMoving(input);
                     bridgeGame.move(input);
                     outputView.printMap(bridgeGame.upBridge(), bridgeGame.downBridge());
+                    if (bridgeGame.isSuccess()) {
+                        end(bridgeGame);
+                        return;
+                    }
                 }
+                if (readRetry().equals(RETRY)) {
+                    bridgeGame.retry();
+                    continue;
+                }
+                end(bridgeGame);
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private String readRetry() {
+        while (true) {
+            try {
+                String input = inputView.readGameCommand();
+                InputValidator.validateCommand(input);
+                return input;
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private void end(BridgeGame bridgeGame) {
+        outputView.printResult(bridgeGame.upBridge(), bridgeGame.downBridge(), bridgeGame.isSuccess(),
+                bridgeGame.getTryCount());
     }
 }

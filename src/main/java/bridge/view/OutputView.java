@@ -7,7 +7,13 @@ public class OutputView {
     private static final String BRIDGE_PREFIX = "[ ";
     private static final String BRIDGE_POSTFIX = " ]";
     private static final String BRIDGE_SEPARATOR = " | ";
+    private static final String SUCCESS = "성공";
+    private static final String FAIL = "실패";
+
     private static final String PRINT_START = "다리 건너기 게임을 시작합니다.";
+    private static final String PRINT_RESULT = "최종 게임 결과";
+    private static final String PRINT_SUCCESS_OR_FAIL = "게임 성공 여부: ";
+    private static final String PRINT_TRY_COUNT = "총 시도한 횟수: ";
 
     public void printErrorMessage(String message) {
         System.out.println(ERROR_PREFIX + message);
@@ -19,23 +25,22 @@ public class OutputView {
         System.out.println();
     }
 
-    /**
-     * 현재까지 이동한 다리의 상태를 정해진 형식에 맞춰 출력한다.
-     * <p>
-     * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
-     */
     public void printMap(List<String> upBridge, List<String> downBridge) {
         String up = String.join(BRIDGE_SEPARATOR, upBridge);
         System.out.println(BRIDGE_PREFIX + up + BRIDGE_POSTFIX);
         String down = String.join(BRIDGE_SEPARATOR, downBridge);
         System.out.println(BRIDGE_PREFIX + down + BRIDGE_POSTFIX);
+        System.out.println();
     }
 
-    /**
-     * 게임의 최종 결과를 정해진 형식에 맞춰 출력한다.
-     * <p>
-     * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
-     */
-    public void printResult() {
+    public void printResult(List<String> upBridge, List<String> downBridge, boolean isSuccess, int tryCount) {
+        System.out.println(PRINT_RESULT);
+        printMap(upBridge, downBridge);
+        String gameResult = SUCCESS;
+        if (!isSuccess) {
+            gameResult = FAIL;
+        }
+        System.out.println(PRINT_SUCCESS_OR_FAIL + gameResult);
+        System.out.println(PRINT_TRY_COUNT + tryCount);
     }
 }
