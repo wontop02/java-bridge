@@ -1,5 +1,7 @@
 package bridge.domain;
 
+import java.util.Arrays;
+
 public enum Direction {
     UP("U", 1),
     DOWN("D", 0);
@@ -13,13 +15,17 @@ public enum Direction {
     }
 
     public static Direction valueOfNumber(int number) {
-        if (number == 1) {
-            return UP;
-        }
-        return DOWN;
+        return Arrays.stream(Direction.values())
+                .filter(d -> d.getNumber() == number)
+                .findFirst()
+                .orElse(null);
     }
 
     public String getDirection() {
         return direction;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }
