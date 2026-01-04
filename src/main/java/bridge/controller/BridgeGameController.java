@@ -20,7 +20,7 @@ public class BridgeGameController {
     public void run() {
         outputView.printStart();
         List<String> bridge = makeBridge();
-        System.out.println(bridge);
+        String moving = readMoving();
     }
 
     private List<String> makeBridge() {
@@ -29,6 +29,18 @@ public class BridgeGameController {
                 String input = inputView.readBridgeSize();
                 InputValidator.validateBridgeSize(input);
                 return bridgeGameService.makeBridge(input);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private String readMoving() {
+        while (true) {
+            try {
+                String input = inputView.readMoving();
+                InputValidator.validateMoving(input);
+                return input;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
