@@ -4,6 +4,7 @@ import bridge.service.BridgeGameService;
 import bridge.util.InputValidator;
 import bridge.view.InputView;
 import bridge.view.OutputView;
+import java.util.List;
 
 public class BridgeGameController {
     private final InputView inputView;
@@ -18,15 +19,16 @@ public class BridgeGameController {
 
     public void run() {
         outputView.printStart();
-        int size = readBridgeSize();
+        List<String> bridge = makeBridge();
+        System.out.println(bridge);
     }
 
-    private int readBridgeSize() {
+    private List<String> makeBridge() {
         while (true) {
             try {
                 String input = inputView.readBridgeSize();
                 InputValidator.validateBridgeSize(input);
-                return Integer.parseInt(input);
+                return bridgeGameService.makeBridge(input);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
