@@ -1,7 +1,12 @@
 package bridge.view;
 
+import java.util.List;
+
 public class OutputView {
     private static final String ERROR_PREFIX = "[ERROR] ";
+    private static final String BRIDGE_PREFIX = "[ ";
+    private static final String BRIDGE_POSTFIX = " ]";
+    private static final String BRIDGE_SEPARATOR = " | ";
     private static final String PRINT_START = "다리 건너기 게임을 시작합니다.";
 
     public void printErrorMessage(String message) {
@@ -19,7 +24,11 @@ public class OutputView {
      * <p>
      * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
-    public void printMap() {
+    public void printMap(List<String> upBridge, List<String> downBridge) {
+        String up = String.join(BRIDGE_SEPARATOR, upBridge);
+        System.out.println(BRIDGE_PREFIX + up + BRIDGE_POSTFIX);
+        String down = String.join(BRIDGE_SEPARATOR, downBridge);
+        System.out.println(BRIDGE_PREFIX + down + BRIDGE_POSTFIX);
     }
 
     /**

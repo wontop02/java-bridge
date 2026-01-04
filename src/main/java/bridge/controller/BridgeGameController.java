@@ -1,10 +1,10 @@
 package bridge.controller;
 
+import bridge.domain.BridgeGame;
 import bridge.service.BridgeGameService;
 import bridge.util.InputValidator;
 import bridge.view.InputView;
 import bridge.view.OutputView;
-import java.util.List;
 
 public class BridgeGameController {
     private final InputView inputView;
@@ -19,28 +19,32 @@ public class BridgeGameController {
 
     public void run() {
         outputView.printStart();
-        List<String> bridge = makeBridge();
-        String moving = readMoving();
+        BridgeGame bridgeGame = makeBridgeGame();
+        move(bridgeGame);
     }
 
-    private List<String> makeBridge() {
+    private BridgeGame makeBridgeGame() {
         while (true) {
             try {
                 String input = inputView.readBridgeSize();
                 InputValidator.validateBridgeSize(input);
-                return bridgeGameService.makeBridge(input);
+                return bridgeGameService.makeBridgeGame(input);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
     }
 
-    private String readMoving() {
+    private void move(BridgeGame bridgeGame) {
         while (true) {
             try {
-                String input = inputView.readMoving();
-                InputValidator.validateMoving(input);
-                return input;
+                while (!bridgeGame.isFail()) {
+                    String input = inputView.readMoving();
+                    InputValidator.validateMoving(input);
+                    bridgeGame.move(input);
+                    outputView.printMap(bridgeGame.upBridge(), bridgeGame.downBridge());
+                }
+                return;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
