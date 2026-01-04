@@ -1,6 +1,7 @@
 package bridge.controller;
 
 import bridge.service.BridgeGameService;
+import bridge.util.InputValidator;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 
@@ -17,5 +18,18 @@ public class BridgeGameController {
 
     public void run() {
         outputView.printStart();
+        int size = readBridgeSize();
+    }
+
+    private int readBridgeSize() {
+        while (true) {
+            try {
+                String input = inputView.readBridgeSize();
+                InputValidator.validateBridgeSize(input);
+                return Integer.parseInt(input);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 }

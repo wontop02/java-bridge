@@ -1,7 +1,13 @@
 package bridge.view;
 
 public class OutputView {
+    private static final String ERROR_PREFIX = "[ERROR] ";
     private static final String PRINT_START = "다리 건너기 게임을 시작합니다.";
+
+    public void printErrorMessage(String message) {
+        System.out.println(ERROR_PREFIX + message);
+        System.out.println();
+    }
 
     public void printStart() {
         System.out.println(PRINT_START);
