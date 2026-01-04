@@ -24,33 +24,14 @@ public class InputValidator {
     private static final String INVALID_MOVING_INPUT = "칸을 정확히 선택해 주세요.";
     private static final String INVALID_COMMAND_INPUT = "기능을 정확히 선택해 주세요.";
 
+    private InputValidator() {
+    }
+
     public static void validateBridgeSize(String input) {
         validateNotBlank(input);
         validateOnlyDigit(input);
         validateWithinIntRange(input);
         validateRange(Integer.parseInt(input));
-    }
-
-    public static void validateMoving(String input) {
-        validateNotBlank(input);
-        validateMovingInput(input);
-    }
-
-    public static void validateCommand(String input) {
-        validateNotBlank(input);
-        validateCommandInput(input);
-    }
-
-    private static void validateCommandInput(String input) {
-        if (!COMMAND_INPUT.contains(input)) {
-            throw new IllegalArgumentException(INVALID_COMMAND_INPUT);
-        }
-    }
-
-    private static void validateMovingInput(String input) {
-        if (!MOVING_INPUT.contains(input)) {
-            throw new IllegalArgumentException(INVALID_MOVING_INPUT);
-        }
     }
 
     private static void validateNotBlank(String input) {
@@ -76,6 +57,28 @@ public class InputValidator {
     private static void validateRange(int number) {
         if (number < MIN || number > MAX) {
             throw new IllegalArgumentException(INVALID_RANGE);
+        }
+    }
+
+    public static void validateMoving(String input) {
+        validateNotBlank(input);
+        validateMovingInput(input);
+    }
+
+    private static void validateMovingInput(String input) {
+        if (!MOVING_INPUT.contains(input)) {
+            throw new IllegalArgumentException(INVALID_MOVING_INPUT);
+        }
+    }
+
+    public static void validateCommand(String input) {
+        validateNotBlank(input);
+        validateCommandInput(input);
+    }
+
+    private static void validateCommandInput(String input) {
+        if (!COMMAND_INPUT.contains(input)) {
+            throw new IllegalArgumentException(INVALID_COMMAND_INPUT);
         }
     }
 }
